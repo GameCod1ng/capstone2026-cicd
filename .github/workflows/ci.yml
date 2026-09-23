@@ -34,15 +34,14 @@ jobs:
   frontend-ci:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Node.js 18 설정
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
+      # 실행 권한 부여 단계 추가
+      - name: Grant execute permission for mvnw
+        run: chmod +x backend/mvnw  # 경로가 backend 하위라면 이와 같이 설정
 
-      - name: 의존성 설치 & 빌드
+      - name: Maven 빌드 & 테스트
         run: |
-          cd frontend
-          npm install
-          npm run build
+          cd backend
+          ./mvnw clean package
